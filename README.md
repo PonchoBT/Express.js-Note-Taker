@@ -30,6 +30,10 @@ This project is licensed under the [PonchoBT.Dev](LICENSE).
 
 ### Screenshots
 
+
+![Screenshot](./public/assets/images/screenshotsnote.png)
+
+
 ![Screenshot](public/assets/images/screenshotsnote.png)
 
 ![Screenshot](public/assets/images/screenshots404.png)
