@@ -81,3 +81,13 @@ body {
 i.fas.fa-edit {
   margin-left: 20px;
 }
+
+.not-found {
+  text-align: center;
+  margin: 0 auto;
+  padding: 50px;
+  background-image: url('../images/404.png');
+  background-size: cover; 
+  background-position: center; 
+  height: 100%;
+}

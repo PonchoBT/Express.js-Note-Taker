@@ -41,7 +41,7 @@ app.get("/notes", (req, res) => {
 
 // If no other route matches, serve the homepage
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "./public/index.html"));
+  res.sendFile(path.join(__dirname, "./public/404.html"));
 });
 
 // Function to create a new note
