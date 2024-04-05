@@ -77,3 +77,7 @@ body {
   padding: 20px;
   cursor: pointer;
 }
+
+i.fas.fa-edit {
+  margin-left: 20px;
+}
