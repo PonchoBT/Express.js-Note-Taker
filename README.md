@@ -34,9 +34,7 @@ This project is licensed under the [PonchoBT.Dev](LICENSE).
 
 ![Screenshot](public/assets/images/note.png)
 
-
-
-![Screenshot](public/assets/images/screenshotsnote.png)
+![Screenshot](public/assets/images/screenshots404.png)
 
 
 
