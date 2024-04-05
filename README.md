@@ -8,7 +8,8 @@ This is a simple project of a note-taking application developed using Express.js
 - View existing notes.
 - Delete notes.
 - Update note.
-- Router 404 not fuont 
+- Router 404 not fuont
+- HEROKU
 
 ## Installation
 
@@ -35,3 +36,4 @@ This project is licensed under the [PonchoBT.Dev](LICENSE).
 
 ### Demo
 
+https://expressjsnotetaker2024-b36dca8ce42b.herokuapp.com/
