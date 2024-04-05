@@ -1,3 +1,4 @@
+// Declare variables to store references to various DOM elements related to note-taking
 let noteForm;
 let noteTitle;
 let noteText;
@@ -7,6 +8,7 @@ let clearBtn;
 let noteList;
 let updateNoteBtn;
 
+// If the current window location is "/notes", assign DOM element references to the variables
 if (window.location.pathname === "/notes") {
   noteForm = document.querySelector(".note-form");
   noteTitle = document.querySelector(".note-title");
@@ -15,19 +17,23 @@ if (window.location.pathname === "/notes") {
   newNoteBtn = document.querySelector(".new-note");
   clearBtn = document.querySelector(".clear-btn");
   noteList = document.querySelectorAll(".list-container .list-group");
-  updateNoteBtn = document.querySelector(".update-note"); // Seleccionamos el botón de actualizar
+  updateNoteBtn = document.querySelector(".update-note");
 }
 
+// Function to display an element
 const show = (elem) => {
   elem.style.display = "inline";
 };
 
+// Function to hide an element
 const hide = (elem) => {
   elem.style.display = "none";
 };
 
+// Variable to store the active note being edited
 let activeNote = {};
 
+// Function to fetch all notes from the server
 const getNotes = () =>
   fetch("/api/notes", {
     method: "GET",
@@ -36,6 +42,7 @@ const getNotes = () =>
     },
   });
 
+// Function to save a new note to the server
 const saveNote = (note) =>
   fetch("/api/notes", {
     method: "POST",
@@ -45,6 +52,7 @@ const saveNote = (note) =>
     body: JSON.stringify(note),
   });
 
+// Function to delete a note from the server by ID
 const deleteNote = (id) =>
   fetch(`/api/notes/${id}`, {
     method: "DELETE",
@@ -53,6 +61,7 @@ const deleteNote = (id) =>
     },
   });
 
+// Function to update a note on the server by ID
 const updateNote = (id, note) =>
   fetch(`/api/notes/${id}`, {
     method: "PUT",
@@ -62,6 +71,7 @@ const updateNote = (id, note) =>
     body: JSON.stringify(note),
   });
 
+// Function to render the active note being edited
 const renderActiveNote = () => {
   hide(saveNoteBtn);
   hide(clearBtn);
@@ -79,6 +89,7 @@ const renderActiveNote = () => {
   }
 };
 
+// Function to handle saving or updating a note
 const handleNoteSave = () => {
   const newNote = {
     title: noteTitle.value,
@@ -98,6 +109,7 @@ const handleNoteSave = () => {
   }
 };
 
+// Function to handle deleting a note
 const handleNoteDelete = (e) => {
   e.stopPropagation();
 
@@ -114,6 +126,7 @@ const handleNoteDelete = (e) => {
   });
 };
 
+// Function to handle viewing a note
 const handleNoteView = (e) => {
   e.preventDefault();
   const selectedNote = JSON.parse(
@@ -123,11 +136,13 @@ const handleNoteView = (e) => {
   renderActiveNote();
 };
 
+// Function to handle creating a new note
 const handleNewNoteView = () => {
   activeNote = {};
   renderActiveNote();
 };
 
+// Function to handle clearing the note form
 const handleClearForm = () => {
   activeNote = {};
   noteTitle.value = "";
@@ -135,6 +150,41 @@ const handleClearForm = () => {
   renderActiveNote();
 };
 
+// Function to create a list item for a note
+const createLi = (text, delBtn = true) => {
+  const liEl = document.createElement("li");
+  liEl.classList.add("list-group-item");
+
+  const spanEl = document.createElement("span");
+  spanEl.innerText = text;
+  spanEl.addEventListener("click", handleNoteView);
+
+  const updateIcon = document.createElement("span");
+  updateIcon.innerHTML = '<i class="fas fa-edit"></i>';
+  updateIcon.classList.add("float-right", "text-primary", "update-note");
+  updateIcon.addEventListener("click", handleUpdateNote);
+  spanEl.appendChild(updateIcon);
+
+  liEl.appendChild(spanEl);
+
+  if (delBtn) {
+    const delBtnEl = document.createElement("i");
+    delBtnEl.classList.add(
+      "fas",
+      "fa-trash-alt",
+      "float-right",
+      "text-danger",
+      "delete-note"
+    );
+    delBtnEl.addEventListener("click", handleNoteDelete);
+
+    liEl.appendChild(delBtnEl);
+  }
+
+  return liEl;
+};
+
+// Function to render the list of notes
 const renderNoteList = async (notes) => {
   let jsonNotes = await notes.json();
   if (window.location.pathname === "/notes") {
@@ -142,40 +192,6 @@ const renderNoteList = async (notes) => {
   }
 
   let noteListItems = [];
-
-  const createLi = (text, delBtn = true) => {
-    const liEl = document.createElement("li");
-    liEl.classList.add("list-group-item");
-
-    const spanEl = document.createElement("span");
-    spanEl.innerText = text;
-    spanEl.addEventListener("click", handleNoteView);
-
-    // Agregar el ícono de actualización dentro del span
-    const updateIcon = document.createElement("span");
-    updateIcon.innerHTML = '<i class="fas fa-edit"></i>';
-    updateIcon.classList.add("float-right", "text-primary", "update-note");
-    updateIcon.addEventListener("click", handleUpdateNote);
-    spanEl.appendChild(updateIcon);
-
-    liEl.append(spanEl);
-
-    if (delBtn) {
-      const delBtnEl = document.createElement("i");
-      delBtnEl.classList.add(
-        "fas",
-        "fa-trash-alt",
-        "float-right",
-        "text-danger",
-        "delete-note"
-      );
-      delBtnEl.addEventListener("click", handleNoteDelete);
-
-      liEl.append(delBtnEl);
-    }
-
-    return liEl;
-  };
 
   if (jsonNotes.length === 0) {
     const emptyListItem = document.createElement("li");
@@ -196,8 +212,10 @@ const renderNoteList = async (notes) => {
   }
 };
 
+// Function to get and render the notes
 const getAndRenderNotes = () => getNotes().then(renderNoteList);
 
+// Function to handle rendering the save and clear buttons based on input fields
 const handleRenderBtns = () => {
   if (noteTitle.value.trim() !== "" || noteText.value.trim() !== "") {
     show(clearBtn);
@@ -212,10 +230,12 @@ const handleRenderBtns = () => {
   }
 };
 
+// Function to handle updating a note
 const handleUpdateNote = (e) => {
   console.log("Update note clicked");
 };
 
+// Event listeners for various actions on the note form
 if (window.location.pathname === "/notes") {
   saveNoteBtn.addEventListener("click", handleNoteSave);
   newNoteBtn.addEventListener("click", handleNewNoteView);
@@ -224,4 +244,5 @@ if (window.location.pathname === "/notes") {
   noteText.addEventListener("input", handleRenderBtns);
 }
 
+// Initial fetching and rendering of notes
 getAndRenderNotes();
