@@ -127,5 +127,5 @@ app.put("/api/notes/:id", (req, res) => {
 
 // Start the server and listen on the specified port
 app.listen(PORT, () =>
-  console.log(`Example app listening at http://localhost:${PORT}`)
+  console.log(`localhost http://localhost:${PORT} 🚀`)
 );
